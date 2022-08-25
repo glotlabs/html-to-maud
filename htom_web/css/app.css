@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.editor-container {
+    position: relative;
+    width: 100%;
+}
+
+.editor {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    font-family: Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
+    white-space: pre;
+}
+
+.ace_focus {
+    outline-style: none;
+    border-color: rgb(9, 105, 218);
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.focus-border:focus {
+    outline-style: none;
+    border-color: rgb(9, 105, 218);
+    border-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+}
+
+/* loading indicator start */
+
+.spinner {
+    margin: 2rem auto;
+    width: 50px;
+    height: 60px;
+    text-align: center;
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.spinner>div {
+    background-color: #333;
+    height: 100%;
+    width: 7px;
+    display: inline-block;
+
+    -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+    animation: sk-stretchdelay 1.2s infinite ease-in-out;
+}
+
+.spinner .rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
+}
+
+.spinner .rect3 {
+    -webkit-animation-delay: -1s;
+    animation-delay: -1s;
+}
+
+.spinner .rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
+}
+
+.spinner .rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
+}
+
+@-webkit-keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+        -webkit-transform: scaleY(0.4);
+    }
+
+    20% {
+        -webkit-transform: scaleY(1);
+    }
+}
+
+@keyframes sk-stretchdelay {
+    0%,
+    40%,
+    100% {
+        transform: scaleY(0.4);
+        -webkit-transform: scaleY(0.4);
+    }
+
+    20% {
+        transform: scaleY(1);
+        -webkit-transform: scaleY(1);
+    }
+}
+
+/* loading indicator end */

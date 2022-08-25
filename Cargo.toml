@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "htom_cli",
+    "htom_core",
+    "htom_wasm",
+]

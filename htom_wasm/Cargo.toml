@@ -1,0 +1,14 @@
+[package]
+name = "htom_wasm"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+polyester = { path = "../../polyester-rs/polyester" }
+polyester_macro = { path = "../../polyester-rs/polyester_macro" }
+htom_core = { path = "../htom_core" }
+serde = { version = "1.0.137", features = ["derive"] }
+wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }

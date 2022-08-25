@@ -1,0 +1,17 @@
+[package]
+name = "htom_core"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+html5ever = "^0.25.2"
+markup5ever_rcdom = "0.1.0"
+polyester = { path = "../../polyester-rs/polyester" }
+polyester_macro = { path = "../../polyester-rs/polyester_macro" }
+maud = "0.23.0"
+serde = { version = "1.0.137", features = ["derive"] }
+serde_json = "1.0.81"
+strum = { version = "0.24.1", features = ["derive"] }
+strum_macros = "0.24.3"
