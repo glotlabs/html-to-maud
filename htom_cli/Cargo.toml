@@ -7,5 +7,5 @@ edition = "2021"
 
 [dependencies]
 htom_core = { path = "../htom_core" }
-polyester = { path = "../../polyester-rs/polyester" }
+polyester = { git = "https://github.com/polyester-web/polyester-rs" }
 serde_json = "1.0.81"

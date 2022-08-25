@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/prasmussen/html-to-maud#readme",
   "dependencies": {
-    "polyester": "file:../../polyester-js"
+    "polyester": "git+https://github.com/polyester-web/polyester-js.git"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",

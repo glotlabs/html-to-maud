@@ -8,8 +8,8 @@ edition = "2021"
 [dependencies]
 html5ever = "^0.25.2"
 markup5ever_rcdom = "0.1.0"
-polyester = { path = "../../polyester-rs/polyester" }
-polyester_macro = { path = "../../polyester-rs/polyester_macro" }
+polyester = { git = "https://github.com/polyester-web/polyester-rs" }
+polyester_macro = { git = "https://github.com/polyester-web/polyester-rs" }
 maud = "0.23.0"
 serde = { version = "1.0.137", features = ["derive"] }
 serde_json = "1.0.81"
