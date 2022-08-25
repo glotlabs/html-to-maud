@@ -24,7 +24,7 @@ jobs:
       - name: Install wasm-pack
         run: |
           mkdir -p ${HOME}/bin
-          wget --quiet -O wasm-pack.tgz $WASM_PACK_URL
+          wget --quiet -O wasm-pack.tar.gz $WASM_PACK_URL
           tar -zxf wasm-pack.tar.gz --directory ${HOME}/bin --strip 1 --no-anchored --wildcards wasm-pack
           rm wasm-pack.tar.gz
 
