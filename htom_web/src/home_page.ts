@@ -1,7 +1,6 @@
 import init from "../wasm/htom.js";
 import { homePage } from "../wasm/htom";
 import { Polyester, rustEnum, BrowserWindow } from "polyester";
-import { defaultDebugConfig } from "polyester/src/logger";
 
 (async () => {
   await init("./wasm/htom_bg.wasm");
@@ -9,9 +8,7 @@ import { defaultDebugConfig } from "polyester/src/logger";
   const browserWindow = new BrowserWindow();
   const windowSize = browserWindow.getSize();
 
-  const polyester = new Polyester(homePage(windowSize), {
-    loggerConfig: defaultDebugConfig(),
-  });
+  const polyester = new Polyester(homePage(windowSize));
 
   polyester.init();
 
