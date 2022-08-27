@@ -18,14 +18,9 @@ if [[ "$event" == "before_asset_hash" ]]; then
     cp htom_web/vendor/ace/mode-html.js dist/vendor/ace
     cp htom_web/vendor/ace/keybinding-vim.js dist/vendor/ace
     cp htom_web/vendor/ace/keybinding-emacs.js dist/vendor/ace
-
-    if [[ "$env" == "dev" ]]; then
-        # Generate html
-        ./target/$env/htom_cli home_page > dist/index.html
-    fi
 fi
 
-if [[ "$event" == "after_asset_hash" ]]; then
+if [[ "$event" == "after_asset_hash" || "$env" == "dev" ]]; then
     # Generate html
     ./target/$env/htom_cli home_page > dist/index.html
 fi
