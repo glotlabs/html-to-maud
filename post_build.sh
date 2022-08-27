@@ -22,5 +22,5 @@ fi
 
 if [[ "$event" == "after_asset_hash" || "$env" == "dev" ]]; then
     # Generate html
-    ./target/$env/htom_cli home_page > dist/index.html
+    ./target/$target/htom_cli home_page > dist/index.html
 fi
