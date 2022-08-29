@@ -180,10 +180,10 @@ impl Page<Model, Msg, AppEffect> for HomePage {
 fn view_head() -> maud::Markup {
     html! {
         title { "Html to Maud" }
-        link rel="stylesheet" href="./app.css";
-        script defer nohash src="./vendor/ace/ace.js" {}
-        script defer nohash src="./vendor/ace/mode-html.js" {}
-        script defer type="module" src="./home_page.js" {}
+        link rel="stylesheet" href="/app.css";
+        script defer nohash src="/vendor/ace/ace.js" {}
+        script defer nohash src="/vendor/ace/mode-html.js" {}
+        script defer type="module" src="/home_page.js" {}
     }
 }
 

@@ -3,7 +3,7 @@ import { homePage } from "../wasm/htom";
 import { Polyester, rustEnum, BrowserWindow } from "polyester";
 
 (async () => {
-  await init("./wasm/htom_bg.wasm");
+  await init("/wasm/htom_bg.wasm");
 
   const browserWindow = new BrowserWindow();
   const windowSize = browserWindow.getSize();
