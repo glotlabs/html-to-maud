@@ -127,9 +127,9 @@ checksum = "8371e4e5341c3a96db127eb2465ac681ced4c433e01dd0e938adbef26ba93ba5"
 
 [[package]]
 name = "lock_api"
-version = "0.4.7"
+version = "0.4.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "327fa5b6a6940e4699ec49a9beae1ea4845c6bab9314e4f84ac68742139d8c53"
+checksum = "9f80bf5aacaf25cbfc8210d1cfb718f2bf3b11c4c54e5afe36c236853a8ec390"
 dependencies = [
  "autocfg",
  "scopeguard",
@@ -205,9 +205,9 @@ checksum = "e4a24736216ec316047a1fc4252e27dabb04218aa4a3f37c6e7ddbf1f9782b54"
 
 [[package]]
 name = "once_cell"
-version = "1.13.1"
+version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "074864da206b4973b84eb91683020dbefd6a8c3f0f38e054d93954e891935e4e"
+checksum = "2f7254b99e31cad77da24b08ebf628882739a608578bb1bcdfc1f9c21260d7c0"
 
 [[package]]
 name = "parking_lot"
@@ -292,7 +292,7 @@ dependencies = [
 [[package]]
 name = "polyester"
 version = "0.1.0"
-source = "git+https://github.com/polyester-web/polyester-rs#ae5c2a0f928b7a7ce5f3bb82bb26bd27577db377"
+source = "git+https://github.com/polyester-web/polyester-rs#37b34dba8b1793b8c5584cacec93d6f997f235c0"
 dependencies = [
  "maud",
  "serde",
@@ -303,7 +303,7 @@ dependencies = [
 [[package]]
 name = "polyester_macro"
 version = "0.1.0"
-source = "git+https://github.com/polyester-web/polyester-rs#ae5c2a0f928b7a7ce5f3bb82bb26bd27577db377"
+source = "git+https://github.com/polyester-web/polyester-rs#37b34dba8b1793b8c5584cacec93d6f997f235c0"
 dependencies = [
  "quote",
  "syn",

@@ -1,6 +1,7 @@
 use crate::html_to_maud;
 use crate::html_to_maud::{ClassStyle, IdStyle, Render};
 use maud::html;
+use maud::Markup;
 use polyester::browser;
 use polyester::browser::app_effect;
 use polyester::browser::effect::local_storage;
@@ -8,6 +9,7 @@ use polyester::browser::DomId;
 use polyester::browser::Effect;
 use polyester::browser::Effects;
 use polyester::browser::ToDomId;
+use polyester::page;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
 use serde::{Deserialize, Serialize};
@@ -32,7 +34,7 @@ pub struct HomePage {
     pub window_size: Option<browser::WindowSize>,
 }
 
-impl Page<Model, Msg, AppEffect> for HomePage {
+impl Page<Model, Msg, AppEffect, Markup> for HomePage {
     fn id(&self) -> DomId {
         DomId::new("html-to-maud")
     }
@@ -169,11 +171,19 @@ impl Page<Model, Msg, AppEffect> for HomePage {
         }
     }
 
-    fn view(&self, model: &Model) -> PageMarkup {
+    fn view(&self, model: &Model) -> PageMarkup<Markup> {
         PageMarkup {
             head: view_head(),
             body: view_body(&self.id(), model),
         }
+    }
+
+    fn render_partial(&self, markup: Markup) -> String {
+        markup.into_string()
+    }
+
+    fn render_page(&self, markup: PageMarkup<Markup>) -> String {
+        page::render_page_maud(markup)
     }
 }
 

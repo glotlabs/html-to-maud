@@ -40,8 +40,8 @@ fn main() {
     }
 }
 
-fn render_html<Model, Msg, AppEffect>(page: impl Page<Model, Msg, AppEffect>) {
+fn render_html<Model, Msg, AppEffect, Markup>(page: impl Page<Model, Msg, AppEffect, Markup>) {
     let (model, _effects) = page.init();
-    let page = page.view(&model);
-    println!("{}", page.to_markup().into_string());
+    let markup = page.view(&model);
+    println!("{}", page.render_page(markup));
 }
