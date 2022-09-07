@@ -26,7 +26,7 @@ fn main() {
             let markup = html_to_maud::html_to_maud(
                 &html,
                 &html_to_maud::Config {
-                    render: html_to_maud::Render::Full,
+                    render: html_to_maud::Render::Auto,
                     id_style: html_to_maud::IdStyle::Full,
                     class_style: html_to_maud::ClassStyle::Full,
                 },
