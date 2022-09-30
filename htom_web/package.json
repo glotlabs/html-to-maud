@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/prasmussen/html-to-maud#readme",
   "dependencies": {
-    "polyester": "git+https://github.com/polyester-web/polyester-js.git"
+    "polyester": "git+https://github.com/polyester-web/polyester-js.git",
+    "poly-ace-editor": "git+https://github.com/polyester-web/poly-ace-editor.git"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.2",

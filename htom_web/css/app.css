@@ -2,35 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.editor-container {
-    position: relative;
-    width: 100%;
-}
-
-.editor {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    font-size: 16px;
-    font-family: Monaco, Menlo, "Ubuntu Mono", Consolas, source-code-pro, monospace;
-    white-space: pre;
-}
-
-.ace_focus {
-    outline-style: none;
-    border-color: rgb(9, 105, 218);
-    border-radius: 3px;
-    border-style: solid;
-    border-width: 1px;
-}
-
-.focus-border:focus {
-    outline-style: none;
-    border-color: rgb(9, 105, 218);
-    border-radius: 3px;
-    border-style: solid;
-    border-width: 1px;
-}
 
 /* loading indicator start */
 

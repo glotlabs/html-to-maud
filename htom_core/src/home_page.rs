@@ -16,6 +16,8 @@ use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::cmp::max;
 
+const MIN_EDITOR_HEIGHT: i64 = 500;
+
 #[derive(strum_macros::Display, polyester_macro::ToDomId)]
 #[strum(serialize_all = "kebab-case")]
 enum Id {
@@ -80,6 +82,7 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
             ]
         } else {
             vec![
+                browser::on_change_string(&Id::HtmlInput, Msg::HtmlChanged),
                 browser::on_click_closest(&Id::Settings.to_dom_id(), Msg::ShowSettings),
                 window_size_sub,
             ]
@@ -190,7 +193,7 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
 fn view_head() -> maud::Markup {
     html! {
         title { "Html to Maud" }
-        link rel="stylesheet" href="/app.css";
+        link id="app-styles" rel="stylesheet" href="/app.css";
         script defer nohash src="/vendor/ace/ace.js" {}
         script defer nohash src="/vendor/ace/mode-html.js" {}
         script defer type="module" src="/home_page.js" {}
@@ -245,19 +248,33 @@ fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
 }
 
 fn view_editors(model: &Model, window_size: &browser::WindowSize) -> maud::Markup {
-    let editor_height = max(i64::from(window_size.height) - 96, 500);
-    let editor_style = format!("height: {}px;", editor_height);
+    let editor_height = max(i64::from(window_size.height) - 96, MIN_EDITOR_HEIGHT);
+    let inline_styles = format!("height: {}px;", editor_height);
+    let height = format!("{}px", editor_height);
 
     html! {
         div class="flex flex-col lg:flex-row pt-4" {
             div class="flex-1 pb-2 pl-4 pr-4 lg:pb-4 lg:pl-4 lg:pr-2" {
-                div class="editor-container" style=(editor_style) {
-                    div #(Id::HtmlInput) class="editor border border-gray-400 shadow" unmanaged { (model.html) }
+                div class="w-full focus-border border border-gray-400 outline-none shadow" {
+                    poly-ace-editor id=(Id::HtmlInput)
+                        style=(inline_styles)
+                        class="relative block w-full text-base whitespace-pre font-mono"
+                        editor-class="block w-full text-base whitespace-pre font-mono"
+                        stylesheet-id="app-styles"
+                        height=(height)
+                        keyboard-handler=(model.keyboard_bindings.ace_keyboard_handler())
+                        theme="ace/theme/textmate"
+                        mode="ace/mode/html"
+                        show-gutter="false"
+                        show-print-margin="false"
+                    {
+                        (model.html)
+                    }
                 }
             }
             div class="flex-1 pt-2 pl-4 pr-4 pb-4 lg:pt-0 lg:pl-2 lg:pr-4" {
-                div class="editor-container" style=(editor_style) {
-                    textarea #(Id::MaudOutput) class="editor focus-border border border-gray-400 resize-none outline-none shadow" readonly { (model.maud) }
+                div class="w-full" style=(inline_styles) {
+                    textarea #(Id::MaudOutput) class="w-full h-full text-base font-mono focus-border border border-gray-400 resize-none outline-none shadow" readonly { (model.maud) }
                 }
             }
         }
