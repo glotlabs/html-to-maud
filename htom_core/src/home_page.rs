@@ -3,7 +3,6 @@ use crate::html_to_maud::{ClassStyle, IdStyle, Render};
 use maud::html;
 use maud::Markup;
 use polyester::browser;
-use polyester::browser::app_effect;
 use polyester::browser::effect::local_storage;
 use polyester::browser::DomId;
 use polyester::browser::Effect;
@@ -100,11 +99,9 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
                     model.keyboard_bindings = settings.keyboard_bindings;
                     model.maud_config = settings.maud_config;
                     model.maud = html_to_maud::html_to_maud(&model.html, &model.maud_config);
-
-                    Ok(vec![set_keyboard_handler_effect(model)])
-                } else {
-                    browser::no_effects()
                 }
+
+                browser::no_effects()
             }
 
             Msg::WindowSizeChanged(value) => {
@@ -166,10 +163,7 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
 
                 model.keyboard_bindings = keyboard_bindings;
 
-                Ok(vec![
-                    set_keyboard_handler_effect(&model),
-                    save_settings_effect(&model),
-                ])
+                Ok(vec![save_settings_effect(&model)])
             }
         }
     }
@@ -434,10 +428,4 @@ fn save_settings_effect(model: &Model) -> Effect<Msg, AppEffect> {
             maud_config: model.maud_config.clone(),
         },
     )
-}
-
-fn set_keyboard_handler_effect(model: &Model) -> Effect<Msg, AppEffect> {
-    app_effect(AppEffect::SetKeyboardHandler(
-        model.keyboard_bindings.ace_keyboard_handler(),
-    ))
 }
