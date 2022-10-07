@@ -360,7 +360,7 @@ impl Element {
             let id_style_no_div = config.id_style == IdStyle::ShortNoDiv;
             let class_style_no_div = config.class_style == ClassStyle::ShortNoDiv;
 
-            (has_id && id_style_no_div) || (has_class && class_style_no_div)
+            (has_id && id_style_no_div) || (has_class && class_style_no_div && !has_id)
         }
     }
 
