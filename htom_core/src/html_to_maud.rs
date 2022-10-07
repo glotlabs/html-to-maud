@@ -4,7 +4,7 @@ use markup5ever_rcdom::{Handle, NodeData, RcDom};
 use serde::{Deserialize, Serialize};
 use std::default::Default;
 
-#[derive(Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum Render {
     Auto,
@@ -12,7 +12,7 @@ pub enum Render {
     OnlyBody,
 }
 
-#[derive(Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum IdStyle {
     Full,
@@ -20,7 +20,7 @@ pub enum IdStyle {
     ShortNoDiv,
 }
 
-#[derive(Clone, Serialize, Deserialize, PartialEq)]
+#[derive(Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum ClassStyle {
     Full,
@@ -104,7 +104,7 @@ impl Doc {
         }
     }
 
-    fn indent_vec(&self, v: &Vec<String>, indent: usize) -> Vec<String> {
+    fn indent_vec(&self, v: &[String], indent: usize) -> Vec<String> {
         v.iter()
             .map(|s| format!("{:indent$}{}", "", s, indent = indent))
             .collect()
@@ -144,7 +144,7 @@ fn walk(config: &Config, indent: usize, node: &Handle, doc: &mut Doc, parent: &P
         NodeData::Text { contents } => {
             let text = &contents.borrow();
             let text = text.trim();
-            if text.len() > 0 {
+            if !text.is_empty() {
                 let output = format!(
                     "{:indent$}\"{}\"",
                     "",
@@ -172,9 +172,9 @@ fn walk(config: &Config, indent: usize, node: &Handle, doc: &mut Doc, parent: &P
             let children = node.children.borrow();
 
             let curly_or_semicolon = if is_empty_element(&tag_name) {
-                format!(";")
+                ";".to_string()
             } else {
-                format!(" {{")
+                " {".to_string()
             };
 
             let output = format!(
@@ -273,13 +273,13 @@ impl Element {
 
     pub fn to_maud(&self, config: &Config) -> String {
         vec![
-            self.format_tag_name(&config),
+            self.format_tag_name(config),
             self.format_id(&config.id_style),
             self.format_classes(&config.class_style),
             self.format_attributes(),
         ]
         .into_iter()
-        .filter(|s| s.len() > 0)
+        .filter(|s| !s.is_empty())
         .collect::<Vec<String>>()
         .join(" ")
     }
@@ -294,10 +294,9 @@ impl Element {
 
     fn format_id(&self, id_style: &IdStyle) -> String {
         self.ids
-            .iter()
-            .next()
+            .first()
             .map(|id| self.format_id_helper(id_style, id))
-            .unwrap_or("".to_string())
+            .unwrap_or_else(|| "".to_string())
     }
 
     fn format_id_helper(&self, id_style: &IdStyle, id: &str) -> String {
@@ -346,7 +345,7 @@ impl Element {
 
     fn format_attribute(&self, name: &str, value: &str) -> String {
         if value.is_empty() {
-            format!("{}", name)
+            name.to_string()
         } else {
             format!("{}=\"{}\"", name, value)
         }
@@ -355,9 +354,9 @@ impl Element {
     fn should_omit_tag_name(&self, config: &Config) -> bool {
         if self.tag_name != "div" {
             false
-        } else if self.ids.len() > 0 && config.id_style == IdStyle::ShortNoDiv {
+        } else if !self.ids.is_empty() && config.id_style == IdStyle::ShortNoDiv {
             true
-        } else if self.classes.len() > 0 && config.class_style == ClassStyle::ShortNoDiv {
+        } else if !self.classes.is_empty() && config.class_style == ClassStyle::ShortNoDiv {
             true
         } else {
             false
