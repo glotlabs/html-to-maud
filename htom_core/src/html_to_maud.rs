@@ -245,7 +245,7 @@ struct Element {
 impl Element {
     pub fn new(tag_name: String, attrs: Vec<Attribute>) -> Element {
         let info = Element {
-            tag_name: tag_name,
+            tag_name,
             ids: Vec::new(),
             classes: Vec::new(),
             attributes: Vec::new(),
@@ -354,12 +354,13 @@ impl Element {
     fn should_omit_tag_name(&self, config: &Config) -> bool {
         if self.tag_name != "div" {
             false
-        } else if !self.ids.is_empty() && config.id_style == IdStyle::ShortNoDiv {
-            true
-        } else if !self.classes.is_empty() && config.class_style == ClassStyle::ShortNoDiv {
-            true
         } else {
-            false
+            let has_id = !self.ids.is_empty();
+            let has_class = !self.classes.is_empty();
+            let id_style_no_div = config.id_style == IdStyle::ShortNoDiv;
+            let class_style_no_div = config.class_style == ClassStyle::ShortNoDiv;
+
+            (has_id && id_style_no_div) || (has_class && class_style_no_div)
         }
     }
 

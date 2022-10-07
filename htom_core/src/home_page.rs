@@ -51,9 +51,9 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
         let model = Model {
             window_size: self.window_size.clone(),
             html: html.into(),
-            maud: html_to_maud::html_to_maud(&html, &maud_config),
+            maud: html_to_maud::html_to_maud(html, &maud_config),
             show_settings: false,
-            maud_config: maud_config,
+            maud_config,
             keyboard_bindings: KeyboardBindings::Default,
         };
 
@@ -115,7 +115,7 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
 
             Msg::HtmlChanged(html) => {
                 model.html = html.into();
-                model.maud = html_to_maud::html_to_maud(&html, &model.maud_config);
+                model.maud = html_to_maud::html_to_maud(html, &model.maud_config);
                 browser::no_effects()
             }
 
@@ -141,19 +141,19 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
 
                 model.maud_config.render = render;
                 model.maud = html_to_maud::html_to_maud(&model.html, &model.maud_config);
-                Ok(vec![save_settings_effect(&model)])
+                Ok(vec![save_settings_effect(model)])
             }
 
             Msg::IdStyleChanged(value) => {
                 model.maud_config.id_style = value.parse().unwrap_or(IdStyle::Full);
                 model.maud = html_to_maud::html_to_maud(&model.html, &model.maud_config);
-                Ok(vec![save_settings_effect(&model)])
+                Ok(vec![save_settings_effect(model)])
             }
 
             Msg::ClassStyleChanged(value) => {
                 model.maud_config.class_style = value.parse().unwrap_or(ClassStyle::Full);
                 model.maud = html_to_maud::html_to_maud(&model.html, &model.maud_config);
-                Ok(vec![save_settings_effect(&model)])
+                Ok(vec![save_settings_effect(model)])
             }
 
             Msg::KeyboardBindingsChanged(value) => {
@@ -163,7 +163,7 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
 
                 model.keyboard_bindings = keyboard_bindings;
 
-                Ok(vec![save_settings_effect(&model)])
+                Ok(vec![save_settings_effect(model)])
             }
         }
     }
@@ -391,7 +391,7 @@ pub enum AppEffect {
     SetKeyboardHandler(String),
 }
 
-#[derive(Clone, serde::Serialize, serde::Deserialize, PartialEq)]
+#[derive(Clone, serde::Serialize, serde::Deserialize, PartialEq, Eq)]
 #[serde(rename_all = "camelCase")]
 pub enum KeyboardBindings {
     Default,
