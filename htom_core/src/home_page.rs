@@ -7,7 +7,6 @@ use polyester::browser::effect::local_storage;
 use polyester::browser::DomId;
 use polyester::browser::Effect;
 use polyester::browser::Effects;
-use polyester::browser::ToDomId;
 use polyester::page;
 use polyester::page::Page;
 use polyester::page::PageMarkup;
@@ -17,9 +16,10 @@ use std::cmp::max;
 
 const MIN_EDITOR_HEIGHT: i64 = 500;
 
-#[derive(strum_macros::Display, polyester_macro::ToDomId)]
+#[derive(strum_macros::Display, polyester_macro::DomId)]
 #[strum(serialize_all = "kebab-case")]
 enum Id {
+    HtmlToMaud,
     HtmlInput,
     MaudOutput,
     Settings,
@@ -36,8 +36,8 @@ pub struct HomePage {
 }
 
 impl Page<Model, Msg, AppEffect, Markup> for HomePage {
-    fn id(&self) -> DomId {
-        DomId::new("html-to-maud")
+    fn id(&self) -> &'static dyn DomId {
+        &Id::HtmlToMaud
     }
 
     fn init(&self) -> (Model, Effects<Msg, AppEffect>) {
@@ -67,22 +67,19 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
 
         if model.show_settings {
             vec![
-                browser::on_click(&Id::SettingsBackdrop.to_dom_id(), Msg::HideSettings),
-                browser::on_click(&Id::SettingsClose.to_dom_id(), Msg::HideSettings),
-                browser::on_change(&Id::RenderOptions.to_dom_id(), Msg::RenderOptionChanged),
-                browser::on_change(&Id::IdStyleOptions.to_dom_id(), Msg::IdStyleChanged),
-                browser::on_change(&Id::ClassStyleOptions.to_dom_id(), Msg::ClassStyleChanged),
-                browser::on_change(
-                    &Id::KeyboardBindings.to_dom_id(),
-                    Msg::KeyboardBindingsChanged,
-                ),
+                browser::on_click(Id::SettingsBackdrop, Msg::HideSettings),
+                browser::on_click(Id::SettingsClose, Msg::HideSettings),
+                browser::on_change(Id::RenderOptions, Msg::RenderOptionChanged),
+                browser::on_change(Id::IdStyleOptions, Msg::IdStyleChanged),
+                browser::on_change(Id::ClassStyleOptions, Msg::ClassStyleChanged),
+                browser::on_change(Id::KeyboardBindings, Msg::KeyboardBindingsChanged),
                 browser::on_keyup_document(browser::Key::Escape, Msg::EscapePressed),
                 window_size_sub,
             ]
         } else {
             vec![
-                browser::on_change_string(&Id::HtmlInput, Msg::HtmlChanged),
-                browser::on_click_closest(&Id::Settings.to_dom_id(), Msg::ShowSettings),
+                browser::on_change_string(Id::HtmlInput, Msg::HtmlChanged),
+                browser::on_click_closest(Id::Settings, Msg::ShowSettings),
                 window_size_sub,
             ]
         }
@@ -101,7 +98,7 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
                     model.maud = html_to_maud::html_to_maud(&model.html, &model.maud_config);
                 }
 
-                browser::no_effects()
+                Ok(vec![])
             }
 
             Msg::WindowSizeChanged(value) => {
@@ -110,28 +107,28 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
                     .map_err(|err| format!("Failed to parse window size: {}", err))?;
 
                 model.window_size = Some(window_size);
-                browser::no_effects()
+                Ok(vec![])
             }
 
             Msg::HtmlChanged(html) => {
                 model.html = html.into();
                 model.maud = html_to_maud::html_to_maud(html, &model.maud_config);
-                browser::no_effects()
+                Ok(vec![])
             }
 
             Msg::ShowSettings => {
                 model.show_settings = true;
-                browser::no_effects()
+                Ok(vec![])
             }
 
             Msg::HideSettings => {
                 model.show_settings = false;
-                browser::no_effects()
+                Ok(vec![])
             }
 
             Msg::EscapePressed => {
                 model.show_settings = false;
-                browser::no_effects()
+                Ok(vec![])
             }
 
             Msg::RenderOptionChanged(value) => {
@@ -171,11 +168,11 @@ impl Page<Model, Msg, AppEffect, Markup> for HomePage {
     fn view(&self, model: &Model) -> PageMarkup<Markup> {
         PageMarkup {
             head: view_head(),
-            body: view_body(&self.id(), model),
+            body: view_body(model),
         }
     }
 
-    fn render_partial(&self, markup: Markup) -> String {
+    fn render(&self, markup: Markup) -> String {
         markup.into_string()
     }
 
@@ -194,9 +191,9 @@ fn view_head() -> maud::Markup {
     }
 }
 
-fn view_body(page_id: &browser::DomId, model: &Model) -> maud::Markup {
+fn view_body(model: &Model) -> maud::Markup {
     html! {
-        div #(page_id) {
+        div #(Id::HtmlToMaud) {
             nav class="bg-gray-800" {
                 div class="px-2 sm:px-6 lg:px-8" {
                     div class="relative flex items-center justify-between h-16" {

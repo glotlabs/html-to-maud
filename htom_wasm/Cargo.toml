@@ -12,3 +12,4 @@ polyester_macro = { git = "https://github.com/polyester-web/polyester-rs" }
 htom_core = { path = "../htom_core" }
 serde = { version = "1.0.137", features = ["derive"] }
 wasm-bindgen = { version = "0.2", features = ["serde-serialize"] }
+gloo-utils = "0.1.5"
